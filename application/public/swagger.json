@@ -1,0 +1,275 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"EndpointMailOutput": {
+				"properties": {
+					"text": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"text"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"EndpointMailInput": {
+				"properties": {
+					"text": {
+						"type": "string"
+					},
+					"summary": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"text",
+					"summary"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"EndpointSummaryOutput": {
+				"properties": {
+					"summary": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"summary"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"EndpointSummaryInput": {
+				"properties": {
+					"transcript": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"transcript"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"EndpointRouterOutput": {
+				"properties": {
+					"text": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"text"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"EndpointRouterInput": {
+				"properties": {
+					"summary": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"summary"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"EndpointAllOutput": {
+				"properties": {
+					"text": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"text"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"EndpointAllInput": {
+				"properties": {
+					"transcript": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"transcript"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "watsonx-demo",
+		"version": "0.0.1",
+		"description": "watsonx-demo",
+		"license": {
+			"name": "Apache-2.0"
+		},
+		"contact": {}
+	},
+	"paths": {
+		"/mail": {
+			"post": {
+				"operationId": "step3",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/EndpointMailOutput"
+								}
+							}
+						}
+					}
+				},
+				"description": "Step 3",
+				"summary": "step 3",
+				"tags": [
+					"Demo"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/EndpointMailInput"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/summary": {
+			"post": {
+				"operationId": "step1",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/EndpointSummaryOutput"
+								}
+							}
+						}
+					}
+				},
+				"description": "Step 1",
+				"summary": "step 1",
+				"tags": [
+					"Demo"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/EndpointSummaryInput"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/router": {
+			"post": {
+				"operationId": "step2",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/EndpointRouterOutput"
+								}
+							}
+						}
+					}
+				},
+				"description": "Step 2",
+				"summary": "step 2",
+				"tags": [
+					"Demo"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/EndpointRouterInput"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/all": {
+			"post": {
+				"operationId": "step123",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/EndpointAllOutput"
+								}
+							}
+						}
+					}
+				},
+				"description": "Step 1 - 3",
+				"summary": "step 1 - 3",
+				"tags": [
+					"Demo"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/EndpointAllInput"
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	],
+	"tags": [
+		{
+			"name": "Demo",
+			"description": "Demo",
+			"externalDocs": {
+				"description": "Demo",
+				"url": "http://example.com"
+			}
+		}
+	]
+}

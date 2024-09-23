@@ -1,0 +1,1 @@
+Invoke the WriteMail tool only if the router update has been successful. Here is the output of the previous conversation: 
