@@ -1,0 +1,15 @@
+.env
+.yarn
+node_modules/
+.pnp.cjs
+.pnp.loader.mjs
+.DS_Store
+readnik.md
+dist/
+instructlab/venv
+instructlab/taxonomy/
+instructlab/chatlogs
+instructlab/checkpoints
+instructlab/checkpoints-prevent-deletions
+instructlab/models
+instructlab/models-ibm-merlinite-7b-trained

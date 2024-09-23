@@ -1,0 +1,93 @@
+chat:
+  context: default
+  greedy_mode: true
+  logs_dir: ./chatlogs
+  max_tokens: null
+  model: ./models
+  session: null
+  vi_mode: false
+  visible_overflow: true
+evaluate:
+  base_branch: null
+  base_model: instructlab/granite-7b-lab
+  branch: null
+  gpus: null
+  mmlu:
+    batch_size: auto
+    few_shots: 5
+  mmlu_branch:
+    tasks_dir: ./datasets
+  model: ./models
+  mt_bench:
+    judge_model: ./models/prometheus-eval/prometheus-8x7b-v2.0
+    max_workers: 16
+    output_dir: ./internal/eval_data
+  mt_bench_branch:
+    taxonomy_path: ./taxonomy
+general:
+  debug_level: 0
+  log_level: INFO
+generate:
+  chunk_word_count: 1000
+  model: ./models
+  num_cpus: 10
+  output_dir: ./datasets
+  pipeline: simple
+  prompt_file: ./internal/prompt.txt
+  sdg_scale_factor: 30
+  seed_file: ./internal/seed_tasks.json
+  taxonomy_base: origin/main
+  taxonomy_path: ./taxonomy
+  teacher:
+    backend: null
+    chat_template: null
+    host_port: 127.0.0.1:8000
+    llama_cpp:
+      gpu_layers: -1
+      llm_family: ''
+      max_ctx_size: 4096
+    model_path: ./models/merlinite-7b-lab-Q4_K_M.gguf
+    vllm:
+      gpus: null
+      llm_family: ''
+      max_startup_attempts: 120
+      vllm_args: []
+serve:
+  backend: null
+  chat_template: null
+  host_port: 127.0.0.1:8000
+  llama_cpp:
+    gpu_layers: -1
+    llm_family: ''
+    max_ctx_size: 4096
+  model_path: ./models
+  vllm:
+    gpus: null
+    llm_family: ''
+    max_startup_attempts: 120
+    vllm_args: []
+train:
+  additional_args: {}
+  checkpoint_at_epoch: true
+  ckpt_output_dir: ./checkpoints
+  data_output_dir: ./internal
+  data_path: ./datasets
+  deepspeed_cpu_offload_optimizer: false
+  effective_batch_size: 3840
+  is_padding_free: false
+  lora_quantize_dtype: nf4
+  lora_rank: 4
+  max_batch_len: 10000
+  max_seq_len: 4096
+  model_path: instructlab/granite-7b-lab
+  nproc_per_node: 1
+  num_epochs: 10
+  phased_mt_bench_judge: ./models/prometheus-eval/prometheus-8x7b-v2.0
+  phased_phase1_effective_batch_size: 128
+  phased_phase1_num_epochs: 10
+  phased_phase1_samples_per_save: 0
+  phased_phase2_effective_batch_size: 3840
+  phased_phase2_num_epochs: 10
+  phased_phase2_samples_per_save: 0
+  save_samples: 250000
+version: 1.0.0

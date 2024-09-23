@@ -1,0 +1,49 @@
+{
+  "name": "watsonx-demo",
+  "description": "watsonx-demo",
+  "version": "0.0.1",
+  "contributors": [
+    "Niklas Heidloff <niklas_heidloff@de.ibm.com>"
+  ],
+  "type": "module",
+  "packageManager": "yarn@4.3.1",
+  "scripts": {
+    "start": "yarn build && node dist/index.js",
+    "start:appOneLLMOneAgent": "tsx src/appOneLLMOneAgent.ts",
+    "start:appOneLLMTwoAgents": "tsx src/appOneLLMTwoAgents.ts",
+    "start:appOneLocalLLMTwoAgents": "tsx src/appOneLocalLLMTwoAgents.ts",
+    "infra:start-code-interpreter": "yarn _docker compose up bee-code-interpreter",
+    "infra:stop-all": "yarn _docker compose down",
+    "infra:clean-all": "yarn _docker compose down --volumes",
+    "clean": "rimraf dist",
+    "ts:check": "tsc --noEmit",
+    "build": "yarn clean && yarn ts:check && tsc",
+    "ensure-env": "cp -n .env.template .env || true",
+    "_docker": "yarn ensure-env && bash -c 'source ./.env && docker_cmd=$(which docker >/dev/null 2>&1 && printf docker || printf podman) && $docker_cmd \"$@\"' sh"
+  },
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@swc/core": "1.7.22",
+    "@types/express": "4",
+    "@types/node": "22.5.2",
+    "@types/swagger-ui-express": "4.1.6",
+    "globals": "15.9.0",
+    "rimraf": "6.0.1",
+    "tsx": "4.19.0",
+    "typescript": "5.5.4"
+  },
+  "dependencies": {
+    "@ibm-generative-ai/node-sdk": "3.2.3",
+    "bee-agent-framework": "0.0.11",
+    "dotenv": "16.4.5",
+    "express": "4.19.2",
+    "ollama": "0.5.8",
+    "openai": "4.56.2",
+    "openai-chat-tokens": "0.2.8",
+    "pino-pretty": "11.2.2",
+    "swagger-ui-express": "5.0.1",
+    "tsoa": "6.4.0",
+    "typescript-rest": "3.0.4"
+  },
+  "sideEffects": false
+}

@@ -1,0 +1,255 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"EndpointMailOutput": {
+				"properties": {
+					"text": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"text"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"EndpointMailInput": {
+				"properties": {
+					"text": {
+						"type": "string"
+					},
+					"summary": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"text",
+					"summary"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"EndpointSummaryOutput": {
+				"properties": {
+					"summary": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"summary"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"EndpointSummaryInput": {
+				"properties": {
+					"transcript": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"transcript"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"EndpointRouterOutput": {
+				"properties": {
+					"text": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"text"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"EndpointRouterInput": {
+				"properties": {
+					"summary": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"summary"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"EndpointAllOutput": {
+				"properties": {
+					"text": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"text"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"EndpointAllInput": {
+				"properties": {
+					"transcript": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"transcript"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {
+			"ApiKeyAuth": {
+				"type": "apiKey",
+				"in": "query",
+				"name": "api_key"
+			  }
+		}
+	},
+	"info": {
+		"title": "watsonx-demo",
+		"version": "0.0.1",
+		"description": "watsonx-demo",
+		"license": {
+			"name": "Apache-2.0"
+		},
+		"contact": {}
+	},
+	"paths": {
+		"/mail": {
+			"post": {
+				"operationId": "Run_mail",
+				"summary": "Writes an email if necessary", 
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/EndpointMailOutput"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/EndpointMailInput"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/summary": {
+			"post": {
+				"operationId": "Run_summary",
+				"summary": "Creates a summary of the transcript",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/EndpointSummaryOutput"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/EndpointSummaryInput"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/router": {
+			"post": {
+				"operationId": "Run_router",
+				"summary": "Updates the router if necessary",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/EndpointRouterOutput"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/EndpointRouterInput"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/all": {
+			"post": {
+				"operationId": "Run_all",
+				"summary": "Runs all steps in the pipeline",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/EndpointAllOutput"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/EndpointAllInput"
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "https://niklas-watson-demo.xxx.eu-de.codeengine.appdomain.cloud"
+		}
+	]
+}
