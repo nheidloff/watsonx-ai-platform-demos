@@ -78,7 +78,7 @@ The application is a workflow with three steps:
 ## Get started
 
 ```bash
-git clone https://github.com/nheidloff/watsonx-demos
+git clone https://github.com/nheidloff/watsonx-ai-platform-demos
 cd watsonx-demos/application
 cp .env.template .env
 # define WATSONX_API_KEY and WATSONX_PROJECT_ID
