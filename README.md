@@ -56,8 +56,9 @@ There are three different flows which implement the same scenario.
 * [Architecture](documentation/Architecture.md)
 * [InstructLab Fine Tuning](instructlab/README.md)
 * [Governance](governance/README.md)
-* TODO: Deployment of custom models in watsonx.ai
-* TODO: watsonx Orchestrate
+* [Deploying Foundation Models on watsonx.ai](https://heidloff.net/article/deploying-custom-foundation-models-watsonx-ai/)
+* [GenAI Quality Metrics for third Party Models in watsonx](https://heidloff.net/article/generative-ai-quality-metrics-watsonx-governance-third-party-models/)
+* [watsonx Orchestrate Sreenshots](documentation/Orchestrate.md)
 
 ## Scenario
 
