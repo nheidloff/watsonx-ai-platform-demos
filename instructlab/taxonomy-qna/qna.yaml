@@ -1,6 +1,6 @@
 version: 3
 task_description: |
-  This skill provides the ability to read a markdown-formatted table.
+  This skill provides the ability to summarize transcripts
 created_by: nheidloff
 seed_examples:
   - context: >-
