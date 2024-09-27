@@ -1,6 +1,11 @@
 # Fine-tuning of the Transcript Summarization Model with InstructLab
 
-Install [InstructLab](https://github.com/instructlab), for example for MacBooks with Apple silicon:
+
+## Installation
+
+Install [InstructLab](https://github.com/instructlab).
+
+MacBooks with Apple silicon:
 
 ```bash
 cd instructlab
@@ -8,7 +13,23 @@ python3.11 -m venv --upgrade-deps venv
 source venv/bin/activate
 pip cache remove llama_cpp_python
 pip install 'instructlab[mps]'
+ilab --version
+ilab, version 0.18.4
 ```
+
+Linux without GPU:
+
+```bash
+cd instructlab
+python3.11 -m venv --upgrade-deps venv  
+source venv/bin/activate
+pip cache remove llama_cpp_python
+pip install instructlab==v0.8.14
+ilab --version
+ilab, version 0.18.4
+```
+
+## Initialization
 
 Initialize iLab:
 
@@ -33,7 +54,6 @@ Please choose a train profile to use:
 Enter the number of your choice [hit enter for the default CPU-only profile] [0]: 
 Using default CPU-only train profile.
 Initialization completed successfully, you're ready to start using `ilab`. Enjoy!
-rm -rf ./taxonomy/.git
 ```
 
 Download Model:
@@ -69,10 +89,12 @@ drwxr-xr-x   8 niklasheidloff  staff         256 Aug 20 17:28 Model Card for Mer
 -rw-r--r--   1 niklasheidloff  staff        1961 Aug 20 17:28 tokenizer_config.json
 ```
 
+## Fine-Tuning - MacBooks with Apple silicon
+
 Fine-tune Model:
 
 ```bash
-ilab model train --local --model-path models/ibm/merlinite-7b
+ilab model train --local --model-path models/ibm/merlinite-7b --legacy
 ls -la ./checkpoints/models-ibm-merlinite-7b-mlx-q
 total 8508472
 drwxr-xr-x  20 niklasheidloff  staff         640 Sep 17 13:19 .
@@ -116,6 +138,8 @@ drwxr-xr-x  12 niklasheidloff  staff         384 Sep 17 17:19 ..
 -rw-r--r--   1 niklasheidloff  staff      493443 Sep 17 17:19 tokenizer.model
 -rw-r--r--   1 niklasheidloff  staff        1989 Sep 17 17:19 tokenizer_config.json
 ```
+
+## Inferencing - MacBooks with Apple silicon
 
 Serve Model with iLab:
 
@@ -174,4 +198,53 @@ curl -X 'POST' \
     "<|endoftext|>"
   ]
 }'
+```
+
+## Fine-Tuning - Linux without GPU
+
+Fine-tune Model:
+
+```
+nohup ilab model train --local --model-path models/ibm/merlinite-7b --legacy --max-seq-len 8000 &
+
+ls -la training_results/checkpoint-500/
+-rw-------.  1 root root     5097 Sep 26 22:41 README.md
+-rw-------.  1 root root      675 Sep 26 22:41 adapter_config.json
+-rw-------.  1 root root 13665336 Sep 26 22:41 adapter_model.safetensors
+-rw-------.  1 root root      119 Sep 26 22:41 added_tokens.json
+-rw-------.  1 root root 27470586 Sep 26 22:41 optimizer.pt
+-rw-------.  1 root root    13990 Sep 26 22:41 rng_state.pth
+-rw-------.  1 root root     1064 Sep 26 22:41 scheduler.pt
+-rw-------.  1 root root      562 Sep 26 22:41 special_tokens_map.json
+-rw-------.  1 root root  3506348 Sep 26 22:41 tokenizer.json
+-rw-------.  1 root root   493443 Sep 26 22:41 tokenizer.model
+-rw-------.  1 root root     1995 Sep 26 22:41 tokenizer_config.json
+-rw-------.  1 root root      867 Sep 26 22:41 trainer_state.json
+-rw-------.  1 root root     5496 Sep 26 22:41 training_args.bin
+
+ls -la training_results/merged_model/
+-rw-------.  1 root root   732 Sep 26 23:13 config.json
+-rw-------.  1 root root   136 Sep 26 23:13 generation_config.json
+-rw-------.  1 root root 23950 Sep 26 23:15 model.safetensors.index.json
+
+ls -la training_results/final/
+-rw-------.  1 root root     119 Sep 26 23:15 added_tokens.json
+-rw-------.  1 root root     732 Sep 26 23:15 config.json
+-rw-------.  1 root root     136 Sep 26 23:15 generation_config.json
+-rw-------.  1 root root     562 Sep 26 23:15 special_tokens_map.json
+-rw-------.  1 root root 3506348 Sep 26 23:15 tokenizer.json
+-rw-------.  1 root root  493443 Sep 26 23:15 tokenizer.model
+-rw-------.  1 root root    1995 Sep 26 23:15 tokenizer_config.json
+
+ls -la /root/.local/share/instructlab/checkpoints/
+-rw-------. 1 root root 14484862880 Sep 26 23:22 ggml-model-f16.gguf
+```
+
+## Data Generation
+
+TODO
+
+```
+mkdir instructlab/taxonomy/compositional_skills/writing/grounded/transcript-summaries
+cp instructlab/taxonomy-qna/qna.yaml instructlab/taxonomy/compositional_skills/writing/grounded/transcript-summaries
 ```

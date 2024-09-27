@@ -1,0 +1,209 @@
+version: 3
+task_description: |
+  This skill provides the ability to read a markdown-formatted table.
+created_by: nheidloff
+seed_examples:
+  - context: >-
+      Sara: (Dialing customer care) Hello, this is Sara, and I'm having some
+      issues with my broadband connection. The internet has been quite slow, and
+      I've been experiencing frequent disconnections.\n\nMike: Hi Sara, I'm
+      Mike, a customer care agent. I'm sorry to hear about the trouble you're
+      facing with your broadband. Let me check that for you. Can you please
+      provide me with your account number or the phone number associated with
+      your account?\n\nSara: Sure, it's 204-555-1234.\n\nMike: Thank you, Sara.
+      Let me pull up your account. While I'm doing that, can you tell me when
+      you first started noticing these issues?\n\nSara: It started about a week
+      ago. The internet speed has been inconsistent, and there are times when it
+      just goes out completely.\n\nMike: I understand how frustrating that can
+      be. I appreciate your patience. It looks like there might be some signal
+      issues. Have you tried restarting your modem and router?\n\nSara: Yes,
+      I've tried that a couple of times, but the problems persist.\n\nMike:
+      Alright, thanks for trying that. I'll run a diagnostic on your connection
+      now. While that's happening, could you let me know if there are specific
+      times of the day when you notice these problems more frequently?\n\nSara:
+      It seems to be worse during the evenings, especially when I'm trying to
+      stream videos or have video calls.\n\nMike: Got it. It could be related to
+      network congestion during peak hours. Let me check the signal strength in
+      your area. While I'm doing that, have you noticed if your neighbors are
+      experiencing similar issues?\n\nSara: I haven't had a chance to check with
+      them, but I can do that. Hold on a moment.\n\n(Mike puts Sara on a brief
+      hold while he checks the network status)\n\nMike: Thank you for waiting,
+      Sara. It appears there might be an issue in your area affecting multiple
+      customers. Our technicians are already working to resolve it. I apologize
+      for the inconvenience.\n\nSara: Oh, okay. I appreciate the update. Do you
+      have an estimated time for when it will be fixed?\n\nMike: I don't have an
+      exact time, but our team is actively working on it, and we'll strive to
+      resolve it as soon as possible. In the meantime, if you experience any
+      further issues or if there are updates, feel free to reach out to
+      us.\n\nSara: Alright, thank you, Mike. I hope it gets resolved
+      soon.\n\nMike: You're welcome, Sara. I understand the importance of a
+      reliable internet connection. If you have any other questions or concerns,
+      please don't hesitate to contact us.\n\nSara: I will. Thanks for your
+      help.\n\nMike: Have a great day, Sara!
+    question: >-
+      Summarize the transcript of the call. Identify the agent and the
+      subscriber. Add any specific issues mentioned by the subscriber. Add any
+      corrective actions taken as directed by the agent. Please mention if the
+      issue is resolved. Mention any follow-up actions and timelines. List the
+      phone number of the subscriber at the end.
+    answer: >-
+      **Agent:** Mike\n**Subscriber:** Sara\n**Specific Issues:** Sara is
+      experiencing slow internet speeds and frequent disconnections, especially
+      during the evenings.\n**Corrective Actions:** Mike ran a diagnostic on
+      Sara's connection and checked the signal strength in her area. He found
+      that there was an issue affecting multiple customers in her area and
+      informed Sara that technicians were already working to resolve
+      it.\n**Issue Resolution:** The issue is not resolved yet, but the team is
+      actively working on it.\n**Follow-up Actions and Timelines:** Sara was
+      advised to reach out if she experiences any further issues or if there are
+      updates. No specific timeline was given for the
+      resolution.\n**Subscriber's Phone Number:** 204-555-1234
+  - context: >-
+      John (Teltop Customer Care Agent): Hello, this is John from Teltop
+      customer care. How can I assist you today?\n\nEmily (Customer): Hi John,
+      I'm having trouble with my router. The internet keeps
+      disconnecting.\n\nJohn: I'm sorry to hear that, Emily. Can you provide me
+      with your account number or the phone number associated with your
+      account?\n\nEmily: Sure, it's 456-7890123.\n\nJohn: Thank you. Can you
+      tell me more about the issue? Does the router completely lose power, or
+      does the internet just drop?\n\nEmily: The internet just drops. The router
+      stays on, but I have to restart it to get the connection back.\n\nJohn: I
+      see. Let's try a few things. Can you unplug the router, wait for 30
+      seconds, and then plug it back in?\n\nEmily: Okay, I'll do that.\n\nJohn
+      waits for a moment.\n\nEmily: It seems to be working now.\n\nJohn: Great!
+      Sometimes a simple reset can fix the issue. If it happens again, please
+      give us a call back.\n\nEmily: Thank you, John. I appreciate your
+      help.\n\nJohn: You're welcome, Emily. Have a great day!
+    question: >-
+      Summarize the transcript of the call. Identify the agent and the
+      subscriber. Add any specific issues mentioned by the subscriber. Add any
+      corrective actions taken as directed by the agent. Please mention if the
+      issue is resolved. Mention any follow-up actions and timelines. List the
+      phone number of the subscriber at the end.
+    answer: >-
+      **Agent:** John\n**Subscriber:** Emily\n**Specific Issues:** Internet
+      keeps disconnecting.\n**Corrective Actions:** Guided the customer to reset
+      the router.\n**Issue Resolved:** Yes, during the call.\n* **Follow-up
+      Actions and Timelines:** None needed.\n**Subscriber Phone Number:**
+      456-789-0123
+  - context: >-
+      Alex (Customer Care Agent): Hello, this is Alex from customer care. How
+      can I assist you today?\n\nDavid (Customer): Hi Alex, I'm having some
+      issues with my phone bill. I think I've been overcharged for my data
+      usage.\n\nAlex: I'm sorry to hear that, David. Can you please provide me
+      with your account number or the phone number associated with your
+      account?\n\nDavid: Sure, it's 987-654-3210.\n\nAlex: Thank you, David. Let
+      me pull up your account. Can you tell me more about the issue you're
+      seeing with your bill?\n\nDavid: I usually use about 5GB of data per
+      month, but this month my bill says I used 10GB, and the charge is
+      significantly higher than usual.\n\nAlex: I understand your concern,
+      David. Let me check on that for you. Can you confirm if you've made any
+      changes to your plan or if you've been using your phone differently this
+      month?\n\nDavid: No, nothing has changed. I've been using my phone the
+      same way as always.\n\nAlex: Alright, thank you for clarifying that. I'm
+      going to review your usage details. It's possible there might have been an
+      error in our system or an unexpected data usage spike.\n\nAlex reviews
+      David's account and finds an anomaly in the data usage tracking.\n\nAlex:
+      David, it appears there was an issue with our data tracking system that
+      caused the discrepancy. I'm going to correct this for you and adjust your
+      bill accordingly.\n\nDavid: That's a relief! Thank you for looking into
+      this, Alex.\n\nAlex: You're welcome, David. I'm glad we could resolve the
+      issue. As a gesture of goodwill for the inconvenience, I'd like to offer
+      you a credit on your next bill. Would that be acceptable to you?\n\nDavid:
+      That sounds great, thank you!\n\nAlex: You're welcome, David. We
+      appreciate your patience and understanding. If you have any other
+      questions or concerns, please don't hesitate to reach out to us.\n\nDavid:
+      I will, thanks again!\n\nAlex: Have a great day, David!
+    question: >-
+      Summarize the transcript of the call. Identify the agent and the
+      subscriber. Add any specific issues mentioned by the subscriber. Add any
+      corrective actions taken as directed by the agent. Please mention if the
+      issue is resolved. Mention any follow-up actions and timelines. List the
+      phone number of the subscriber at the end.
+    answer: >-
+      **Agent:** Alex\n**Subscriber:** David\n**Specific Issues:** David
+      reported being overcharged for his data usage, with his bill showing 10GB
+      of usage instead of his usual 5GB.\n**Corrective Actions:** Alex reviewed
+      David's account, found an anomaly in the data usage tracking, and
+      corrected the issue. He also adjusted David's bill accordingly and offered
+      a credit on his next bill as a gesture of goodwill.\n**Issue Resolved:**
+      Yes, the issue was resolved during the call.\n**Follow-up Actions and
+      Timelines:** None mentioned.\n**Subscriber's Phone Number:** 987-654-3210
+  - context: >-
+      Jen (Customer Care Agent): Hello, this is Jen from customer care. How can
+      I assist you today?\n\nChris (Customer): Hi Jen, I'm having trouble
+      setting up my new smartphone. I just got it, and I'm trying to transfer my
+      data from my old phone, but it's not working.\n\nJen: I'd be happy to help
+      you with that, Chris. What's your phone number?\n\nChris:
+      294-804-2840\n\nJen: Can you please tell me a little bit more about the
+      issue you're experiencing? What kind of phone did you have before, and
+      what kind of phone do you have now?\n\nChris: I had an iPhone, and now I
+      have a Samsung. I'm trying to transfer my contacts, photos, and messages,
+      but the transfer process keeps failing.\n\nJen: Okay, let's try to
+      troubleshoot this. Have you tried using the Smart Switch app that comes
+      with your new Samsung phone?\n\nChris: Yes, I've tried that, but it's not
+      working. It says there's a problem with the connection.\n\nJen: Alright,
+      let's try a different method. Can you please go to the settings on your
+      old iPhone, go to iCloud, and make sure that iCloud backup is turned
+      on?\n\nChris: Okay, I've done that.\n\nJen: Great! Now, on your new
+      Samsung phone, go to the settings, then accounts, and select "Transfer
+      data from iCloud." Follow the prompts to sign in with your Apple ID and
+      select the backup you just created.\n\nChris: Okay, I think it's working
+      now. The transfer process has started.\n\nJen: Excellent! I'm glad we were
+      able to get that working for you, Chris. If you have any other questions
+      or need further assistance, please don't hesitate to ask.\n\nChris: Thanks
+      so much, Jen! I really appreciate your help.\n\nJen: You're welcome,
+      Chris. Enjoy your new phone, and have a great day!
+    question: >-
+      Summarize the transcript of the call. Identify the agent and the
+      subscriber. Add any specific issues mentioned by the subscriber. Add any
+      corrective actions taken as directed by the agent. Please mention if the
+      issue is resolved. Mention any follow-up actions and timelines. List the
+      phone number of the subscriber at the end.
+    answer: >-
+      **Agent:** Jen\n**Subscriber:** Chris\n**Specific Issues:** Chris was
+      having trouble transferring data from his old iPhone to his new Samsung
+      phone using the Smart Switch app.**Corrective Actions:** Jen directed
+      Chris to use iCloud backup on his old iPhone and then transfer the data to
+      his new Samsung phone using the iCloud transfer option.\n**Issue
+      Resolved:** Yes, the issue was resolved, and Chris was able to
+      successfully transfer his data.\n**Follow-up Actions and Timelines:** None
+      mentioned.\n**Subscriber's Phone Number:** 294-804-2840
+  - context: >-
+      Raj (Customer Care Agent): Hello, this is Raj from customer care. How can
+      I assist you today?\n\nLeah (Customer): Hi Raj, I'm having some issues
+      with my TV service. Some channels are not coming in clearly, and I'm
+      getting a "no signal" message on a few of them.\n\nRaj: I'm sorry to hear
+      that, Leah. Can you please provide me with your account number or the
+      phone number associated with your account?\n\nLeah: Sure, it's
+      111-222-3333.\n\nRaj: Thank you, Leah. Can you tell me which channels are
+      affected and when you first noticed the issue?\n\nLeah: It's mostly the HD
+      channels. I first noticed it yesterday evening. I tried restarting my box,
+      but it didn't help.\n\nRaj: I understand how frustrating that can be. Let
+      me check on the status of our signal in your area. Can you please confirm
+      if you're using a DVR or a regular set-top box?\n\nLeah: I'm using a
+      DVR.\n\nRaj: Alright, thank you for clarifying that. I'm going to send a
+      signal refresh to your box. This might take a few minutes. In the
+      meantime, I'd like to ask, have you made any recent changes to your TV
+      setup or moved any equipment?\n\nLeah: No, everything is the same as it's
+      been.\n\nRaj: Okay, thank you for confirming that. I've sent the signal
+      refresh. Can you please check if the channels are coming in clearly
+      now?\n\nLeah: Yes, it seems to be working now. The channels are coming in
+      fine.\n\nRaj: Great! I'm glad we were able to resolve the issue, Leah. If
+      you experience any further problems or have any other questions, please
+      don't hesitate to reach out to us.\n\nLeah: Thanks, Raj! I appreciate your
+      help.\n\nRaj: You're welcome, Leah. Have a great day!
+    question: >-
+      Summarize the transcript of the call. Identify the agent and the
+      subscriber. Add any specific issues mentioned by the subscriber. Add any
+      corrective actions taken as directed by the agent. Please mention if the
+      issue is resolved. Mention any follow-up actions and timelines. List the
+      phone number of the subscriber at the end.
+    answer: >-
+      **Agent:** Raj\n**Subscriber:** Leah\n**Specific Issues:** Leah reported
+      that some channels, mostly HD channels, were not coming in clearly, and
+      she was getting a "no signal" message on a few of them.\n**Corrective
+      Actions:** Raj sent a signal refresh to Leah's DVR, which resolved the
+      issue.\n**Issue Resolved:** Yes, the issue was resolved after Raj sent the
+      signal refresh.\n**Follow-up Actions and Timelines:** None
+      mentioned.\n**Subscriber's Phone Number:** 111-222-3333
