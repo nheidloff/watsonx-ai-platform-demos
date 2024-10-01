@@ -34,7 +34,7 @@ generate:
   output_dir: ./datasets
   pipeline: simple
   prompt_file: ./internal/prompt.txt
-  sdg_scale_factor: 30
+  sdg_scale_factor: 5
   seed_file: ./internal/seed_tasks.json
   taxonomy_base: origin/main
   taxonomy_path: ./taxonomy

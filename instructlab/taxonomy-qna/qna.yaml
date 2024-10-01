@@ -1,6 +1,8 @@
 version: 3
-task_description: |
-  This skill provides the ability to summarize transcripts
+task_description: >-
+  Summarization of phone call transcripts between human agents
+  and clients of a customer care department of a telecommunication
+  service provider.
 created_by: nheidloff
 seed_examples:
   - context: >-

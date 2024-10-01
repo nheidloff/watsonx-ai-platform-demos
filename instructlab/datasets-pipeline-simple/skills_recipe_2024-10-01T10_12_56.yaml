@@ -1,0 +1,7 @@
+datasets:
+- path: node_datasets_2024-10-01T10_12_56/compositional_skills_writing_grounded_transcript-summaries.jsonl
+  sampling_size: 30
+metadata:
+  sys_prompt: "I am, Red Hat\xAE Instruct Model based on Granite 7B, an AI language\
+    \ model developed by Red Hat and IBM Research, based on the Granite-7b-base language\
+    \ model. My primary function is to be a chat assistant."

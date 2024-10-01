@@ -68,9 +68,6 @@ git clone https://huggingface.co/ibm/merlinite-7b
 cd ../../
 ls -la models/ibm/merlinite-7b                                             
 total 28293360
-drwxr-xr-x  19 niklasheidloff  staff         608 Sep 17 13:06 .
-drwxr-xr-x   3 niklasheidloff  staff          96 Sep 17 12:52 ..
--rw-r--r--@  1 niklasheidloff  staff        6148 Sep 17 13:06 .DS_Store
 drwxr-xr-x   3 niklasheidloff  staff          96 Aug 20 17:28 .cache
 -rw-r--r--   1 niklasheidloff  staff        1519 Aug 20 17:28 .gitattributes
 drwxr-xr-x   8 niklasheidloff  staff         256 Aug 20 17:28 Model Card for Merlinite 7b 28cc0b72cf574a4a828140d3539ede4a
@@ -94,6 +91,8 @@ drwxr-xr-x   8 niklasheidloff  staff         256 Aug 20 17:28 Model Card for Mer
 Fine-tune Model:
 
 ```bash
+rm -rf ./datasets
+cp -a ./datasets-no-generation/. ./datasets
 ilab model train --local --model-path models/ibm/merlinite-7b --legacy
 ls -la ./checkpoints/models-ibm-merlinite-7b-mlx-q
 total 8508472
@@ -202,9 +201,11 @@ curl -X 'POST' \
 
 ## Fine-Tuning - Linux without GPU
 
-Fine-tune Model:
+Fine-tune Model with legacy mode:
 
 ```
+rm -rf ./datasets
+cp -a ./datasets-no-generation/. ./datasets
 nohup ilab model train --local --model-path models/ibm/merlinite-7b --legacy --max-seq-len 8000 &
 
 ls -la training_results/checkpoint-500/
@@ -240,11 +241,6 @@ ls -la /root/.local/share/instructlab/checkpoints/
 -rw-------. 1 root root 14484862880 Sep 26 23:22 ggml-model-f16.gguf
 ```
 
-## Data Generation
+Fine-tune Model with 0.19:
 
-TODO
-
-```
-mkdir instructlab/taxonomy/compositional_skills/writing/grounded/transcript-summaries
-cp instructlab/taxonomy-qna/qna.yaml instructlab/taxonomy/compositional_skills/writing/grounded/transcript-summaries
-```
+TODO: To generate safetensors file(s) use 0.19 without legacy mode
