@@ -24,7 +24,7 @@ cd instructlab
 python3.11 -m venv --upgrade-deps venv  
 source venv/bin/activate
 pip cache remove llama_cpp_python
-pip install instructlab==v0.8.14
+pip install instructlab
 ilab --version
 ilab, version 0.18.4
 ```
