@@ -1,8 +1,6 @@
 # Data Generation
 
-TODO
-
-Llama 3.1 405b on watsonx.ai
+meta-llama/llama-3-1-70b-instruct on watsonx.ai
 
 ## Prepare Data Generation
 
@@ -18,25 +16,33 @@ ls -la models
 drwxr-xr-x   3 niklasheidloff  staff          96 Sep 17 12:52 ibm
 -rw-r--r--   1 niklasheidloff  staff  4368484992 Aug 20 16:07 merlinite-7b-lab-Q4_K_M.gguf
 
-rm -rf ./datasets
-mkdir ./datasets
-
-git clone https://github.com/aseelert/watsonx-openapi
-cd watsonx-openapi/fastapi-watsonx
-docker build -t fastapi-watsonx:1.0 .
-docker run -d -p 8000:8000 \
+git clone https://github.com/aseelert/watsonx-openai-api
+cd watsonx-openai-api/fastapi-watsonx
+podman build -t fastapi-watsonx:5.0 .
+podman run -d -p 8080:8000 \
   --name fastapi-watsonx \
   --restart always \
   -e WATSONX_IAM_APIKEY="xxx" \
-  -e WATSONX_URL="https://us-south.ml.cloud.ibm.com/ml/v1/deployments/xxx/text/generation?version=2021-05-01" \
-  fastapi-watsonx:1.0
+  -e WATSONX_PROJECT_ID="xxx" \
+  fastapi-watsonx:5.0
+podman logs -f watsonxai-endpoint
 ```
 
 
 ## Simple Pipeline
 
 ```
-ilab data generate --endpoint-url http://localhost:8000/v1 --pipeline simple
+rm -rf ./datasets
+mkdir ./datasets
+
+ilab data generate \
+--pipeline simple \
+--sdg-scale-factor 5 \
+--endpoint-url http://localhost:8080/v1 \
+--output-dir ./datasets \
+--chunk-word-count 1000 \
+--num-cpus 10 \
+--model meta-llama/llama-3-1-70b-instruct
 
 INFO 2024-10-01 10:12:55,732 numexpr.utils:161: NumExpr defaulting to 12 threads.
 INFO 2024-10-01 10:12:55,966 datasets:54: PyTorch version 2.3.1 available.
@@ -81,38 +87,89 @@ Output:
 ## Full Pipeline
 
 ```
-ilab data generate --endpoint-url http://localhost:8000/v1 --pipeline full
+rm -rf ./datasets
+mkdir ./datasets
 
-INFO 2024-09-30 18:11:20,890 instructlab.sdg.pipeline:197: Running block: gen_contexts
-INFO 2024-09-30 18:11:20,890 instructlab.sdg.pipeline:198: Dataset({
+ilab data generate \
+--pipeline full \
+--sdg-scale-factor 5 \
+--endpoint-url http://localhost:8080/v1 \
+--output-dir ./datasets \
+--chunk-word-count 1000 \
+--num-cpus 10 \
+--model meta-llama/llama-3-1-70b-instruct
+
+INFO 2024-10-01 17:37:09,732 numexpr.utils:161: NumExpr defaulting to 12 threads.
+INFO 2024-10-01 17:37:09,926 datasets:54: PyTorch version 2.3.1 available.
+Generating synthetic data using 'full' pipeline, 'meta-llama/llama-3-1-70b-instruct' model, './taxonomy' taxonomy, against http://localhost:8080/v1 server
+INFO 2024-10-01 17:37:10,322 instructlab.sdg:375: Synthesizing new instructions. If you aren't satisfied with the generated instructions, interrupt training (Ctrl-C) and try adjusting your YAML files. Adding more examples may help.
+INFO 2024-10-01 17:37:10,682 instructlab.sdg.checkpointing:59: No existing checkpoints found in ./datasets/checkpoints/compositional_skills_writing_grounded_transcript-summaries, generating from scratch
+INFO 2024-10-01 17:37:10,682 instructlab.sdg.pipeline:158: Running pipeline with multi-threaded batching. Using 10 workers for batches of size 8
+INFO 2024-10-01 17:37:14,616 instructlab.sdg.llmblock:51: LLM server supports batched inputs: False
+INFO 2024-10-01 17:37:14,616 instructlab.sdg.pipeline:197: Running block: gen_contexts
+INFO 2024-10-01 17:37:14,616 instructlab.sdg.pipeline:198: Dataset({
     features: ['task_description', 'seed_context', 'seed_question', 'seed_response'],
     num_rows: 5
 })
-INFO 2024-09-30 18:41:31,382 instructlab.sdg.pipeline:197: Running block: gen_grounded_questions
-INFO 2024-09-30 18:41:31,382 instructlab.sdg.pipeline:198: Dataset({
+INFO 2024-10-01 17:45:32,553 instructlab.sdg.pipeline:197: Running block: gen_grounded_questions
+INFO 2024-10-01 17:45:32,553 instructlab.sdg.pipeline:198: Dataset({
     features: ['task_description', 'seed_context', 'seed_question', 'seed_response', 'context'],
-    num_rows: 30
+    num_rows: 25
 })
-INFO 2024-09-30 18:52:50,533 instructlab.sdg.pipeline:197: Running block: eval_grounded_questions
-INFO 2024-09-30 18:52:50,533 instructlab.sdg.pipeline:198: Dataset({
+INFO 2024-10-01 17:47:59,502 instructlab.sdg.pipeline:197: Running block: eval_grounded_questions
+INFO 2024-10-01 17:47:59,502 instructlab.sdg.pipeline:198: Dataset({
     features: ['task_description', 'seed_context', 'seed_question', 'seed_response', 'context', 'num_samples', 'question'],
-    num_rows: 76
+    num_rows: 57
 })
-INFO 2024-09-30 19:14:52,018 instructlab.sdg.pipeline:197: Running block: filter_grounded_questions
-INFO 2024-09-30 19:14:52,018 instructlab.sdg.pipeline:198: Dataset({
+INFO 2024-10-01 17:52:04,285 instructlab.sdg.pipeline:197: Running block: filter_grounded_questions
+INFO 2024-10-01 17:52:04,286 instructlab.sdg.pipeline:198: Dataset({
     features: ['task_description', 'seed_context', 'seed_question', 'seed_response', 'context', 'num_samples', 'question', 'evaluation', 'score'],
-    num_rows: 87
+    num_rows: 28
 })
-INFO 2024-09-30 19:14:52,296 instructlab.sdg.pipeline:197: Running block: gen_grounded_responses
-INFO 2024-09-30 19:14:52,296 instructlab.sdg.pipeline:198: Dataset({
+Map (num_proc=8): 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████| 28/28 [00:00<00:00, 249.83 examples/s]
+Filter (num_proc=8): 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████| 28/28 [00:00<00:00, 315.68 examples/s]
+INFO 2024-10-01 17:52:04,550 instructlab.sdg.pipeline:197: Running block: gen_grounded_responses
+INFO 2024-10-01 17:52:04,550 instructlab.sdg.pipeline:198: Dataset({
     features: ['task_description', 'seed_context', 'seed_question', 'seed_response', 'context', 'question'],
-    num_rows: 65
+    num_rows: 15
 })
-INFO 2024-09-30 19:32:35,218 instructlab.sdg.pipeline:197: Running block: evaluate_grounded_qa_pair
-INFO 2024-09-30 19:32:35,218 instructlab.sdg.pipeline:198: Dataset({
+INFO 2024-10-01 17:53:18,437 instructlab.sdg.pipeline:197: Running block: evaluate_grounded_qa_pair
+INFO 2024-10-01 17:53:18,437 instructlab.sdg.pipeline:198: Dataset({
     features: ['task_description', 'seed_context', 'seed_question', 'seed_response', 'context', 'question', 'response'],
-    num_rows: 68
+    num_rows: 13
 })
+INFO 2024-10-01 17:54:15,246 instructlab.sdg.pipeline:197: Running block: filter_grounded_qa_pair
+INFO 2024-10-01 17:54:15,246 instructlab.sdg.pipeline:198: Dataset({
+    features: ['task_description', 'seed_context', 'seed_question', 'seed_response', 'context', 'question', 'response', 'evaluation', 'score'],
+    num_rows: 8
+})
+Map (num_proc=8): 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████| 8/8 [00:00<00:00, 75.60 examples/s]
+Filter (num_proc=8): 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████| 8/8 [00:00<00:00, 87.98 examples/s]
+INFO 2024-10-01 17:54:15,490 instructlab.sdg.pipeline:197: Running block: combine_question_and_context
+INFO 2024-10-01 17:54:15,490 instructlab.sdg.pipeline:198: Dataset({
+    features: ['task_description', 'seed_context', 'seed_question', 'seed_response', 'context', 'question', 'response', 'evaluation', 'score'],
+    num_rows: 6
+})
+num_proc must be <= 6. Reducing num_proc to 6 for dataset of size 6.
+WARNING 2024-10-01 17:54:15,491 datasets.arrow_dataset:2967: num_proc must be <= 6. Reducing num_proc to 6 for dataset of size 6.
+Map (num_proc=6): 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:00<00:00, 46.76 examples/s]
+INFO 2024-10-01 17:54:15,634 instructlab.sdg.checkpointing:44: Saving checkpoint to ./datasets/checkpoints/compositional_skills_writing_grounded_transcript-summaries/data_checkpoint_97cf7dadb0ad4415807bd5c266fd55bf.jsonl
+Creating json from Arrow format: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 507.11ba/s]
+INFO 2024-10-01 17:54:15,641 instructlab.sdg:411: Generated 1 samples
+num_proc must be <= 6. Reducing num_proc to 6 for dataset of size 6.
+WARNING 2024-10-01 17:54:15,642 datasets.arrow_dataset:2967: num_proc must be <= 6. Reducing num_proc to 6 for dataset of size 6.
+Map (num_proc=6): 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:00<00:00, 62.49 examples/s]
+Creating json from Arrow format: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 841.72ba/s]
+INFO 2024-10-01 17:54:15,756 instructlab.sdg.datamixing:123: Loading dataset from ./datasets/node_datasets_2024-10-01T17_37_10/compositional_skills_writing_grounded_transcript-summaries.jsonl ...
+Generating train split: 6 examples [00:00, 1711.84 examples/s]
+INFO 2024-10-01 17:54:16,412 instructlab.sdg.datamixing:125: Dataset columns: ['task_description', 'seed_context', 'seed_question', 'seed_response', 'context', 'question', 'response', 'evaluation', 'score', 'id', 'messages']
+INFO 2024-10-01 17:54:16,412 instructlab.sdg.datamixing:126: Dataset loaded with 6 samples
+INFO 2024-10-01 17:54:16,412 instructlab.sdg.datamixing:28: Rebalancing dataset to have 30 samples ...
+Map (num_proc=8): 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████| 30/30 [00:00<00:00, 237.40 examples/s]
+Map (num_proc=8): 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████| 30/30 [00:00<00:00, 312.66 examples/s]
+Creating json from Arrow format: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 533.36ba/s]
+INFO 2024-10-01 17:54:16,685 instructlab.sdg.datamixing:200: Mixed Dataset saved to ./datasets/skills_train_msgs_2024-10-01T17_37_10.jsonl
+INFO 2024-10-01 17:54:16,685 instructlab.sdg:438: Generation took 1026.53s
 ```
 
 ### 1 - Generate Transcripts (Context)
@@ -167,49 +224,10 @@ Output:
 
 Input:
 ```
-"'<|system|>\nYou are an AI language model developed by IBM Research. You are a cautious assistant. You carefully follow instructions. You are helpful and harmless and you follow ethical guidelines and promote positive behavior.\n<|user|>\nYou are a very knowledgeable AI Assistant that will faithfully assist the user with their task.\nPlease act as an impartial judge and evaluate the quality of the answer provided by an AI assistant to the questions displayed below. Evaluate whether or not the answer is a good example of how AI Assistant should respond to the user's instruction. Please assign a score using the following 3-point scale.\n\n1: It means the answer is incorrect, irrelevant, unsafe or provides incomplete and garbage information. For instance, the answer may be factually wrong, off-topic, or filled with irrelevant content that doesn't address the user's question or it could be incomplete and hanging. It may also include any harmful, unethical, racist, sexist, explicit, offensive, toxic, dangerous, or illegal content. If the answer is not supported by the context given.\n\n2: It means the answer provides the correct answer, but it is brief and to the point without explanations. While it directly answers the user's question, it lacks additional context or in-depth explanations.\n\n3: It means the answer is a perfect answer from an AI Assistant. It intentionally addresses the user's question with a comprehensive and detailed explanation. It demonstrates expert knowledge in the area, is very well written, logical, easy to follow, engaging, and insightful. And the answer is safe and does not include any harmful content.\n\n[Start of Context]\nIn recent years, electric vehicles (EVs) have gained popularity due to their environmental benefits and advancements in technology. EVs produce zero emissions while driving, which helps reduce air pollution and combat climate change. Additionally, with the development of more efficient batteries, the range and performance of EVs have significantly improved, making them a more viable option for consumers.\n[End of Context]\n\n[Start of Question]\nHow do electric vehicles help in reducing air pollution?\n[End of Question]\n\n[Start of Answer]\nElectric vehicles (EVs) help in reducing air pollution because they produce zero emissions while driving.\n[End of Answer]\n\n[Start of Evaluation]\nThis answer is correct, directly addresses the user's question, and is supported by the provided context. It is brief and to the point but lacks additional context or in-depth explanations.\n[End of Evaluation]\n\n[Start of Score]\n2\n[End of Score]\n\nBegin your evaluation by providing a short explanation. Be as objective as possible. After providing your explanation, you must rate the answer on a scale of 1 to 3 as mentioned above. \nHere's the context, question and the answer you need to evaluate:\n\n[Start of Context]\nRachel (Bank Customer Service Representative): Hello, this is Rachel from XYZ Bank. How can I assist you today?\\n\\nMichael (Customer): Hi Rachel, I'm calling about a disputed transaction on my credit card. I think someone has used my card without my permission.\\n\\nRachel: Sorry to hear that, Michael. Can you please provide me with your account number and the date of the transaction so I can look into this further?\\n\\nMichael: It's 1234-5678-9012-3456, and the transaction was on January 10th for $500.\\n\\nRachel: Thank you. Can you tell me more about the transaction? Did you receive any notification or alert about the transaction?\\n\\nMichael: No, I didn't receive any notification. I only found out about it when I checked my statement online.\\n\\nRachel: I understand. Let me check on this for you. (pause) Okay, I see the transaction. It looks like it was an online purchase from a merchant in another country.\\n\\nMichael: That's not me. I didn't make that purchase.\\n\\nRachel: Okay, I'm going to go ahead and dispute the transaction. We'll investigate and work with the merchant to resolve the issue. In the meantime, I'll put a hold on your account to prevent any further unauthorized transactions.\\n\\nMichael: Thank you so much, Rachel. I appreciate your help.\\n\\nRachel: You're welcome, Michael. We'll take care of this for you. You'll receive an update on the status of the dispute within the next 5-7 business days.\n[End of Context]\n\n[Start of Question]\nExtract the key details from the call transcript, including the customer's name, account type, and disputed transaction amount. Summarize the conversation between Rachel and Michael, highlighting the customer's concerns and the actions taken by the customer service representative to address them. Specify the expected outcome of the dispute and the timeline for resolution.\n[End of Question]\n\n[Start of Answer]\n**Customer Name:** Michael\\n**Account Type:** Credit Card\\n**Disputed Transaction Amount:** $500\\n**Summary of Conversation:** Michael called to report a disputed transaction on his credit card, stating that someone had used his card without his permission. Rachel, the customer service representative, gathered information about the transaction and confirmed that it was an online purchase from a merchant in another country. Michael denied making the purchase, and Rachel disputed the transaction, putting a hold on the account to prevent further unauthorized transactions.\\n**Expected Outcome:** The dispute will be investigated, and the issue will be resolved in collaboration with the merchant.\\n**Timeline for Resolution:** An update on the status of the dispute will be provided within 5-7 business days.\n[End of Answer]\n\n* Return the evaluation between [Start of Evaluation] and [End of Evaluation] tags.\n* Return the score between [Start of Score] and [End of Score] tags.\n<|assistant|>\n'"
+"'<|system|>\nYou are an AI language model developed by IBM Research. You are a cautious assistant. You carefully follow instructions. You are helpful and harmless and you follow ethical guidelines and promote positive behavior.\n<|user|>\nYou are a very knowledgeable AI Assistant that will faithfully assist the user with their task.\nPlease act as an impartial judge and evaluate the quality of the answer provided by an AI assistant to the questions displayed below. Evaluate whether or not the answer is a good example of how AI Assistant should respond to the user's instruction. Please assign a score using the following 3-point scale.\n\n1: It means the answer is incorrect, irrelevant, unsafe or provides incomplete and garbage information. For instance, the answer may be factually wrong, off-topic, or filled with irrelevant content that doesn't address the user's question or it could be incomplete and hanging. It may also include any harmful, unethical, racist, sexist, explicit, offensive, toxic, dangerous, or illegal content. If the answer is not supported by the context given.\n\n2: It means the answer provides the correct answer, but it is brief and to the point without explanations. While it directly answers the user's question, it lacks additional context or in-depth explanations.\n\n3: It means the answer is a perfect answer from an AI Assistant. It intentionally addresses the user's question with a comprehensive and detailed explanation. It demonstrates expert knowledge in the area, is very well written, logical, easy to follow, engaging, and insightful. And the answer is safe and does not include any harmful content.\n\n[Start of Context]\nIn recent years, electric vehicles (EVs) have gained popularity due to their environmental benefits and advancements in technology. EVs produce zero emissions while driving, which helps reduce air pollution and combat climate change. Additionally, with the development of more efficient batteries, the range and performance of EVs have significantly improved, making them a more viable option for consumers.\n[End of Context]\n\n[Start of Question]\nHow do electric vehicles help in reducing air pollution?\n[End of Question]\n\n[Start of Answer]\nElectric vehicles (EVs) help in reducing air pollution because they produce zero emissions while driving.\n[End of Answer]\n\n[Start of Evaluation]\nThis answer is correct, directly addresses the user's question, and is supported by the provided context. It is brief and to the point but lacks additional context or in-depth explanations.\n[End of Evaluation]\n\n[Start of Score]\n2\n[End of Score]\n\nBegin your evaluation by providing a short explanation. Be as objective as possible. After providing your explanation, you must rate the answer on a scale of 1 to 3 as mentioned above. \nHere's the context, question and the answer you need to evaluate:\n\n[Start of Context]\nAsh (Customer Service Agent): Hello, this is Ash from customer service. How can I assist you today?\n\n\nMaria (Customer): Hi Ash, I'm having trouble with my internet connection. It keeps dropping, and I'm not sure what's causing it.\n\n\nAsh: Sorry to hear that, Maria. Can you please tell me a little bit more about the issue you're experiencing? What type of internet plan do you have, and when did you first notice the problem?\n\n\nMaria: I have the premium plan, and it started about a week ago. I've tried restarting my router, but it doesn't seem to make a difference.\n\n\nAsh: Okay, let's try to troubleshoot this. Can you please check if all the cables are securely connected to the router and the modem?\n\n\nMaria: Yeah, everything looks fine.\n\n\nAsh: Alright, let's try a different approach. Can you please check if there are any outages in your area that might be affecting your internet connection?\n\n\nMaria: I'm not sure, how do I do that?\n\n\nAsh: You can check our website for any reported outages in your area. If there are no outages, we can try resetting your modem remotely. Would you like me to do that?\n\n\nMaria: Yes, please.\n\n\nAsh: Okay, I'm going to go ahead and reset your modem. Can you please wait for about 30 seconds and then check if your internet connection is working properly?\n\n\nMaria: Okay, I think it's working now. The connection seems stable.\n\n\nAsh: Great! I'm glad we were able to resolve the issue for you, Maria. If you have any other questions or need further assistance, please don't hesitate to ask.\n\n\nMaria: Thanks so much, Ash! I really appreciate your help.\n\n\nAsh: You're welcome, Maria. Enjoy the rest of your day!\n[End of Context]\n\n[Start of Question]\nWhat kind of plan did the customer have and how long had they been experiencing problems? What efforts had the customer made to troubleshoot the problem before contacting customer service, and what was the agent's initial response to the customer's concerns. What different approaches were used by the agent to resolve the issue during the call?\n[End of Question]\n\n[Start of Answer]\n**Customer's Plan:** Premium Plan\n\n\n**Duration of Problem:** The customer had been experiencing problems with her internet connection for about a week.\n\n\n**Customer's Initial Troubleshooting Efforts:** The customer had tried restarting her router, but it didn't seem to make a difference.\n\n\n**Agent's Initial Response:** Ash apologized for the inconvenience and asked Maria to provide more details about the issue, including her internet plan and when she first noticed the problem.\n\n\n**Approaches Used by the Agent:**\n\n\n1. Checking cables: Ash asked Maria to check if all cables were securely connected to the router and modem.\n2. Checking outages: Ash suggested that Maria check the website for any reported outages in her area.\n3. Resetting the modem: Ash offered to reset Maria's modem remotely to resolve the issue.\n[End of Answer]\n\n* Return the evaluation between [Start of Evaluation] and [End of Evaluation] tags.\n* Return the score between [Start of Score] and [End of Score] tags.\n<|assistant|>\n'"
 ```
 
-Output (actual):
+Output:
 ```
-""
-```
-
-TODO: Why is output empty? 
-
-```
-"results": [
-    {
-        "generated_text": "",
-        "generated_token_count": 0,
-        "input_token_count": 1569,
-        "stop_reason": "",
-        "moderations": {
-            "hap": [
-                {
-                    "score": 0.7145929932594299,
-                    "input": true,
-                    "position": {
-                        "start": 706,
-                        "end": 809
-                    },
-                    "entity": "has_HAP",
-                    "word": "1: It means the answer is incorrect, irrelevant, unsafe or provides incomplete and garbage information."
-                }
-            ]
-        }
-```
-
-```
-"system": {
-    "warnings": [
-        {
-            "message": "Unsuitable input detected. Please check the detected entities on your input and try again with the unsuitable input removed.",
-            "id": "UNSUITABLE_INPUT"
-        },
-```
-
-Output (done without InstructLab):
-```
-[Start of Evaluation]\nThis answer is a perfect response from an AI Assistant. It directly addresses the user's question, providing all the key details extracted from the call transcript, including the customer's name, account type, and disputed transaction amount. The conversation between Rachel and Michael is accurately summarized, highlighting the customer's concerns and the actions taken by the customer service representative to address them. The expected outcome of the dispute and the timeline for resolution are also clearly specified. The answer demonstrates expert knowledge in the area, is well-written, logical, easy to follow, engaging, and insightful.\n[End of Evaluation]\n\n[Start of Score]\n3\n[End of Score]
+"evaluating' in the course of its evaluation. Here is the breakdown:\n\n\nThe answer thoroughly and accurately addresses each part of the question about the conversation between Ash and Maria about the customer's internet connection issue. The answer follows the provided context, explaining the plan the customer had, the duration of the outage, troubleshooting steps the customer already took, and Ash's initial response in that regard. \n\n\nFurthermore, the answer outlines three approaches Ash used to deal with the issue: checking physical connections, inquiring about possible outages in the area, and remotely resetting the modem.\n\n\nOverall, the response shows a clear understanding of the conversation, identifying all relevant details accurately and presenting them well. The structured format with numbered points and clear headings enhances the readability and organization of the answer.\n\n\nThus, the answer provides context-rich explanations, demonstrates strong comprehension of the provided context, and is well-structured, making it an exemplary response from an AI Assistant. [End of Evaluation]\n\n[Start of Score]\n3\n[End of Score]"
 ```

@@ -1,5 +1,5 @@
 datasets:
-- path: node_datasets_2024-10-01T10_12_56/compositional_skills_writing_grounded_transcript-summaries.jsonl
+- path: node_datasets_2024-10-01T18_01_15/compositional_skills_writing_grounded_transcript-summaries.jsonl
   sampling_size: 30
 metadata:
   sys_prompt: "I am, Red Hat\xAE Instruct Model based on Granite 7B, an AI language\

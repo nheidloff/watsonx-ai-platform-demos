@@ -1,8 +1,8 @@
 version: 3
 task_description: >-
   Summarization of phone call transcripts between human agents
-  and clients of a customer care department of a telecommunication
-  service provider.
+  and clients of a telecommunication service provider about
+  technical issues.
 created_by: nheidloff
 seed_examples:
   - context: >-

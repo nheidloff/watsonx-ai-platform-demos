@@ -14,3 +14,4 @@ instructlab/checkpoints-prevent-deletions
 instructlab/models
 instructlab/models-ibm-merlinite-7b-trained
 instructlab/watsonx-openapi
+instructlab/watsonx-openai-api
