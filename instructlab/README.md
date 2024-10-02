@@ -215,6 +215,43 @@ ilab, version 0.19.0
 
 nohup ilab model train --data-path ./datasets-no-generation/skills_train_msgs_2024-10-01T18_01_15.jsonl --pipeline=full --device=cpu &
 
-TODO
+ls -la checkpoints/hf_format/samples_16/
+-rw-------. 1 root root         151 Oct  2 09:25 added_tokens.json
+-rw-------. 1 root root         706 Oct  2 09:25 config.json
+-rw-------. 1 root root  4081050528 Oct  2 10:00 pytorch_model-Q4_K_M.gguf
+-rw-------. 1 root root 26954045822 Oct  2 09:25 pytorch_model.bin
+-rw-------. 1 root root 26954666592 Oct  2 09:42 pytorch_model.gguf
+-rw-------. 1 root root        1490 Oct  2 09:25 special_tokens_map.json
+-rw-------. 1 root root     3619710 Oct  2 09:25 tokenizer.json
+-rw-------. 1 root root      499723 Oct  2 09:25 tokenizer.model
+-rw-------. 1 root root        2780 Oct  2 09:25 tokenizer_config.json
+```
 
+Convert and upload to Object Storage:
+
+```
+export TGIS_IMAGE="quay.io/modh/text-generation-inference:rhoai-2.8-58cac74"
+podman pull ${TGIS_IMAGE}
+export MODEL_DIR="/instructlab/watsonx-ai-platform-demos/instructlab/checkpoints/hf_format/samples_16/"
+container_id=$(podman run -itd --privileged -u 0 -v ${MODEL_DIR}:/tmp ${TGIS_IMAGE} tail -f /dev/null)
+podman exec -it ${container_id} bash -c 'export MODEL_PATH=/tmp ; text-generation-server convert-to-safetensors ${MODEL_PATH} ; text-generation-server convert-to-fast-tokenizer ${MODEL_PATH}'
+
+ls -la checkpoints/hf_format/samples_16/
+-rw-------. 1 root root         151 Oct  2 09:25 added_tokens.json
+-rw-------. 1 root root         706 Oct  2 09:25 config.json
+-rw-r--r--. 1 root root 26953958560 Oct  2 10:42 model.safetensors
+-rw-------. 1 root root  4081050528 Oct  2 10:00 pytorch_model-Q4_K_M.gguf
+-rw-------. 1 root root 26954045822 Oct  2 09:25 pytorch_model.bin
+-rw-------. 1 root root 26954666592 Oct  2 09:42 pytorch_model.gguf
+-rw-------. 1 root root        1490 Oct  2 09:25 special_tokens_map.json
+-rw-------. 1 root root     3619710 Oct  2 09:25 tokenizer.json
+-rw-------. 1 root root      499723 Oct  2 09:25 tokenizer.model
+-rw-------. 1 root root        2780 Oct  2 09:25 tokenizer_config.json
+
+export AWS_ACCESS_KEY_ID="xxx"
+export AWS_SECRET_ACCESS_KEY="xxx"
+export ENDPOINT="https://s3.us-south.cloud-object-storage.appdomain.cloud"
+export BUCKET_NAME="linux-tuned-bin-model"
+export MODEL_FOLDER=.
+aws --endpoint-url ${ENDPOINT} s3 cp ${MODEL_DIR} s3://${BUCKET_NAME}/${MODEL_FOLDER}/ --recursive --follow-symlinks
 ```
