@@ -148,8 +148,8 @@ seed_examples:
       let's try a different method. Can you please go to the settings on your
       old iPhone, go to iCloud, and make sure that iCloud backup is turned
       on?\n\nChris: Okay, I've done that.\n\nJen: Great! Now, on your new
-      Samsung phone, go to the settings, then accounts, and select "Transfer
-      data from iCloud." Follow the prompts to sign in with your Apple ID and
+      Samsung phone, go to the settings, then accounts, and select Transfer
+      data from iCloud. Follow the prompts to sign in with your Apple ID and
       select the backup you just created.\n\nChris: Okay, I think it's working
       now. The transfer process has started.\n\nJen: Excellent! I'm glad we were
       able to get that working for you, Chris. If you have any other questions
@@ -165,7 +165,7 @@ seed_examples:
     answer: >-
       **Agent:** Jen\n**Subscriber:** Chris\n**Specific Issues:** Chris was
       having trouble transferring data from his old iPhone to his new Samsung
-      phone using the Smart Switch app.**Corrective Actions:** Jen directed
+      phone using the Smart Switch app.\n**Corrective Actions:** Jen directed
       Chris to use iCloud backup on his old iPhone and then transfer the data to
       his new Samsung phone using the iCloud transfer option.\n**Issue
       Resolved:** Yes, the issue was resolved, and Chris was able to
@@ -175,7 +175,7 @@ seed_examples:
       Raj (Customer Care Agent): Hello, this is Raj from customer care. How can
       I assist you today?\n\nLeah (Customer): Hi Raj, I'm having some issues
       with my TV service. Some channels are not coming in clearly, and I'm
-      getting a "no signal" message on a few of them.\n\nRaj: I'm sorry to hear
+      getting a no signal message on a few of them.\n\nRaj: I'm sorry to hear
       that, Leah. Can you please provide me with your account number or the
       phone number associated with your account?\n\nLeah: Sure, it's
       111-222-3333.\n\nRaj: Thank you, Leah. Can you tell me which channels are
@@ -204,7 +204,7 @@ seed_examples:
     answer: >-
       **Agent:** Raj\n**Subscriber:** Leah\n**Specific Issues:** Leah reported
       that some channels, mostly HD channels, were not coming in clearly, and
-      she was getting a "no signal" message on a few of them.\n**Corrective
+      she was getting a no signal message on a few of them.\n**Corrective
       Actions:** Raj sent a signal refresh to Leah's DVR, which resolved the
       issue.\n**Issue Resolved:** Yes, the issue was resolved after Raj sent the
       signal refresh.\n**Follow-up Actions and Timelines:** None

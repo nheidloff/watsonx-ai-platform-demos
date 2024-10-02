@@ -26,7 +26,7 @@ source venv/bin/activate
 pip cache remove llama_cpp_python
 pip install instructlab
 ilab --version
-ilab, version 0.18.4
+ilab, version 0.19.0
 ```
 
 ## Initialization
@@ -92,8 +92,12 @@ Fine-tune Model:
 
 ```bash
 rm -rf ./datasets
-cp -a ./datasets-no-generation/. ./datasets
+cp -a ./datasets-no-generation-legacy/. ./datasets
+ilab --version
+ilab, version 0.18.4
+
 ilab model train --local --model-path models/ibm/merlinite-7b --legacy
+
 ls -la ./checkpoints/models-ibm-merlinite-7b-mlx-q
 total 8508472
 drwxr-xr-x  20 niklasheidloff  staff         640 Sep 17 13:19 .
@@ -201,46 +205,16 @@ curl -X 'POST' \
 
 ## Fine-Tuning - Linux without GPU
 
-Fine-tune Model with legacy mode:
+Fine-tune Model:
 
 ```
 rm -rf ./datasets
 cp -a ./datasets-no-generation/. ./datasets
-nohup ilab model train --local --model-path models/ibm/merlinite-7b --legacy --max-seq-len 8000 &
+ilab --version
+ilab, version 0.19.0
 
-ls -la training_results/checkpoint-500/
--rw-------.  1 root root     5097 Sep 26 22:41 README.md
--rw-------.  1 root root      675 Sep 26 22:41 adapter_config.json
--rw-------.  1 root root 13665336 Sep 26 22:41 adapter_model.safetensors
--rw-------.  1 root root      119 Sep 26 22:41 added_tokens.json
--rw-------.  1 root root 27470586 Sep 26 22:41 optimizer.pt
--rw-------.  1 root root    13990 Sep 26 22:41 rng_state.pth
--rw-------.  1 root root     1064 Sep 26 22:41 scheduler.pt
--rw-------.  1 root root      562 Sep 26 22:41 special_tokens_map.json
--rw-------.  1 root root  3506348 Sep 26 22:41 tokenizer.json
--rw-------.  1 root root   493443 Sep 26 22:41 tokenizer.model
--rw-------.  1 root root     1995 Sep 26 22:41 tokenizer_config.json
--rw-------.  1 root root      867 Sep 26 22:41 trainer_state.json
--rw-------.  1 root root     5496 Sep 26 22:41 training_args.bin
+nohup ilab model train --data-path ./datasets-no-generation/skills_train_msgs_2024-10-01T18_01_15.jsonl --pipeline=full --device=cpu &
 
-ls -la training_results/merged_model/
--rw-------.  1 root root   732 Sep 26 23:13 config.json
--rw-------.  1 root root   136 Sep 26 23:13 generation_config.json
--rw-------.  1 root root 23950 Sep 26 23:15 model.safetensors.index.json
+TODO
 
-ls -la training_results/final/
--rw-------.  1 root root     119 Sep 26 23:15 added_tokens.json
--rw-------.  1 root root     732 Sep 26 23:15 config.json
--rw-------.  1 root root     136 Sep 26 23:15 generation_config.json
--rw-------.  1 root root     562 Sep 26 23:15 special_tokens_map.json
--rw-------.  1 root root 3506348 Sep 26 23:15 tokenizer.json
--rw-------.  1 root root  493443 Sep 26 23:15 tokenizer.model
--rw-------.  1 root root    1995 Sep 26 23:15 tokenizer_config.json
-
-ls -la /root/.local/share/instructlab/checkpoints/
--rw-------. 1 root root 14484862880 Sep 26 23:22 ggml-model-f16.gguf
 ```
-
-Fine-tune Model with 0.19:
-
-TODO: To generate safetensors file(s) use 0.19 without legacy mode
