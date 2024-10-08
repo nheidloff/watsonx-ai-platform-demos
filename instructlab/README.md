@@ -213,7 +213,7 @@ cp -a ./datasets-no-generation/. ./datasets
 ilab --version
 ilab, version 0.19.0
 
-nohup ilab model train --data-path ./datasets-no-generation/skills_train_msgs_2024-10-01T18_01_15.jsonl --pipeline=full --device=cpu &
+nohup ilab model train --model-path instructlab/merlinite-7b-lab --data-path ./datasets-no-generation/skills_train_msgs_2024-10-01T18_01_15.jsonl --pipeline=full --device=cpu &
 
 ls -la checkpoints/hf_format/samples_16/
 -rw-------. 1 root root         151 Oct  2 09:25 added_tokens.json

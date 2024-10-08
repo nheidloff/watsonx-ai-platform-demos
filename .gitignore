@@ -15,3 +15,5 @@ instructlab/models
 instructlab/models-ibm-merlinite-7b-trained
 instructlab/watsonx-openapi
 instructlab/watsonx-openai-api
+orchestrate/custom-search/venv
+__pycache__/
