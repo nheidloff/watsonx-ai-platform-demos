@@ -79,7 +79,7 @@ train:
   lora_rank: 4
   max_batch_len: 10000
   max_seq_len: 4096
-  model_path: instructlab/granite-7b-lab
+  model_path: instructlab/merlinite-7b-lab
   nproc_per_node: 1
   num_epochs: 10
   phased_mt_bench_judge: ./models/prometheus-eval/prometheus-8x7b-v2.0
