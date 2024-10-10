@@ -90,6 +90,15 @@ podman push icr.io/niklas/custom-search-linux-amd64:2
 
 ## Example Conversation
 
+```text
+John (Teltop Customer Care Agent): Hello, this is John from Teltop customer care. How can I assist you today?
+Mary (Disappointed Subscriber): Hi John, it's Mary. I've been having a nightmare with your service. My home Wi-Fi is acting up, and the TV service over fiber is terrible.
+...
+John: ... It could be a specific problem with your equipment or connection. Can you check if all cables are properly connected and if there are any obstructions to the router?
+Mary: I've checked, and everything seems fine. This is so frustrating!
+John: I'm sorry to hear that, Mary. It might be best to perform a remote diagnostic check on your router. I can guide you through the process.
+```
+
 **Step 1**
 
 User input: "What are potential route causes for 'Wi-Fi problems and the TV service quality'?"
